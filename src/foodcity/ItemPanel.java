@@ -4,17 +4,29 @@
  */
 package foodcity;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kavinduakash
  */
 public class ItemPanel extends javax.swing.JPanel {
 
+    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+    private final String DB_USERNAME = "root";
+    private final String DB_PASSWORD = "ijse";
+    
     /**
-     * Creates new form ItemPanel
+     * Creates new form CustomerPanel
      */
     public ItemPanel() {
         initComponents();
+        loadItemTbl();
     }
 
     /**
@@ -26,33 +38,401 @@ public class ItemPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        itemTable = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        itemSaveBtn = new javax.swing.JButton();
+        itemUpdateBtn = new javax.swing.JButton();
+        itemDeleteBtn = new javax.swing.JButton();
+        itemResetBtn = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        itemIdTextField = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        itemNameTextField = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        itemQtyTextField = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        itemPriceTextField = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(255, 102, 255));
-        setPreferredSize(new java.awt.Dimension(800, 550));
+        jLabel4.setText("Email");
 
-        jLabel1.setText("Item");
+        jTextField3.setText("jTextField1");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(jLabel1)
-                .addContainerGap(197, Short.MAX_VALUE))
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        setBackground(new java.awt.Color(204, 255, 51));
+        setSize(new java.awt.Dimension(100, 100));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(759, 50));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Item Management");
+        jPanel1.add(jLabel1);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        itemTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Qty", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        itemTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(itemTable);
+
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
+
+        itemSaveBtn.setBackground(new java.awt.Color(204, 255, 204));
+        itemSaveBtn.setText("Save");
+        itemSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSaveBtnActionPerformed(evt);
+            }
+        });
+        jPanel7.add(itemSaveBtn);
+
+        itemUpdateBtn.setBackground(new java.awt.Color(204, 255, 255));
+        itemUpdateBtn.setText("Update");
+        itemUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemUpdateBtnActionPerformed(evt);
+            }
+        });
+        jPanel7.add(itemUpdateBtn);
+
+        itemDeleteBtn.setBackground(new java.awt.Color(255, 153, 153));
+        itemDeleteBtn.setText("Delete");
+        itemDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemDeleteBtnActionPerformed(evt);
+            }
+        });
+        jPanel7.add(itemDeleteBtn);
+
+        itemResetBtn.setBackground(new java.awt.Color(255, 255, 153));
+        itemResetBtn.setText("Reset");
+        itemResetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemResetBtnActionPerformed(evt);
+            }
+        });
+        jPanel7.add(itemResetBtn);
+
+        jPanel8.setLayout(new java.awt.GridLayout(1, 0));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel3.setText("ID");
+        jPanel3.add(jLabel3);
+
+        itemIdTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel3.add(itemIdTextField);
+
+        jPanel8.add(jPanel3);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel5.setText("Name");
+        jPanel4.add(jLabel5);
+
+        itemNameTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel4.add(itemNameTextField);
+
+        jPanel8.add(jPanel4);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel2.setText("Qty");
+        jPanel5.add(jLabel2);
+
+        itemQtyTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel5.add(itemQtyTextField);
+
+        jPanel8.add(jPanel5);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel6.setText("Price");
+        jPanel6.add(jLabel6);
+
+        itemPriceTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        itemPriceTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPriceTextFieldActionPerformed(evt);
+            }
+        });
+        jPanel6.add(itemPriceTextField);
+
+        jPanel8.add(jPanel6);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(jLabel1)
-                .addContainerGap(151, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveBtnActionPerformed
+        String id = itemIdTextField.getText();
+        String name = itemNameTextField.getText();
+        String qty = itemQtyTextField.getText();
+        String price = itemPriceTextField.getText();
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                
+                String sql = "INSERT INTO items(id, name, qty, unit_price) VALUES (" + id + ", '" + name + "', "+ qty +", " + price + ")";
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Item Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadItemTbl();
+                    cleanItemTextFields();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }//GEN-LAST:event_itemSaveBtnActionPerformed
 
+    private void itemUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUpdateBtnActionPerformed
+        // TODO add your handling code here:
+        String id = itemIdTextField.getText();
+        String name = itemNameTextField.getText();
+        String qty = itemQtyTextField.getText();
+        String price = itemPriceTextField.getText();
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                String sql = "UPDATE items SET name='" + name + "', qty=" + qty + ", unit_price='" + price + "' WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Item Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadItemTbl();
+                    cleanItemTextFields();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }//GEN-LAST:event_itemUpdateBtnActionPerformed
+
+    private void itemDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteBtnActionPerformed
+        String id = itemIdTextField.getText();
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                String sql = "DELETE FROM items WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Item Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadItemTbl();
+                    cleanItemTextFields();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }//GEN-LAST:event_itemDeleteBtnActionPerformed
+
+    private void itemResetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResetBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemResetBtnActionPerformed
+
+    private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
+        // TODO add your handling code here:
+        int row = itemTable.getSelectedRow();
+        
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
+        
+        String id = model.getValueAt(row, 0).toString();
+        String name = model.getValueAt(row, 1).toString();
+        String qty = model.getValueAt(row, 2).toString();
+        String price = model.getValueAt(row, 3).toString();
+        
+        itemIdTextField.setText(id);
+        itemNameTextField.setText(name);
+        itemQtyTextField.setText(qty);
+        itemPriceTextField.setText(price);
+    }//GEN-LAST:event_itemTableMouseClicked
+
+    private void itemPriceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPriceTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemPriceTextFieldActionPerformed
+    
+    private void loadItemTbl() {
+         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                
+                String sql = "SELECT * FROM items";
+                
+                Statement stm = conn.createStatement();
+                
+                ResultSet result = stm.executeQuery(sql);
+                
+                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
+                
+                model.setRowCount(0);
+            
+                while(result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    int qty = result.getInt("qty");
+                    double price = result.getDouble("unit_price");
+                    
+                    Object[] new_row = new Object[]{id, name, qty, price};
+                    model.addRow(new_row);
+                }
+                
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }
+    
+    private void cleanItemTextFields() {
+        itemIdTextField.setText("");
+        itemNameTextField.setText("");
+        itemQtyTextField.setText("");
+        itemPriceTextField.setText("");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton itemDeleteBtn;
+    private javax.swing.JTextField itemIdTextField;
+    private javax.swing.JTextField itemNameTextField;
+    private javax.swing.JTextField itemPriceTextField;
+    private javax.swing.JTextField itemQtyTextField;
+    private javax.swing.JButton itemResetBtn;
+    private javax.swing.JButton itemSaveBtn;
+    private javax.swing.JTable itemTable;
+    private javax.swing.JButton itemUpdateBtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
