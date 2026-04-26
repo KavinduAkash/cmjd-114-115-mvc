@@ -5,6 +5,12 @@
 
 package foodcity;
 
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kavinduakash
@@ -14,6 +20,7 @@ public class CustomerPanel extends javax.swing.JPanel {
     /** Creates new form CustomerPanel */
     public CustomerPanel() {
         initComponents();
+        loadCustomerTbl();
     }
 
     /** This method is called from within the constructor to
@@ -143,6 +150,11 @@ public class CustomerPanel extends javax.swing.JPanel {
 
         customerUpdateBtn.setBackground(new java.awt.Color(153, 204, 255));
         customerUpdateBtn.setText("Update");
+        customerUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerUpdateBtnActionPerformed(evt);
+            }
+        });
         jPanel8.add(customerUpdateBtn);
 
         customerDeleteBtn.setBackground(new java.awt.Color(255, 153, 153));
@@ -229,10 +241,119 @@ public class CustomerPanel extends javax.swing.JPanel {
         String email = customerEmailTextField.getText();
         String address = customerAddressTextField.getText();
         
-        System.out.println("Customer -> id: " + id + ", name:" + name + ", email: " + email + ", address: " + address);
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                System.out.println("Connected!!!");
+                
+                String sql = "INSERT INTO customers(id, name, email, address) VALUES (" + id + ", '" + name + "', '"+ email +"', '" + address + "')";
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Customer Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadCustomerTbl();
+                    cleanCustomerTextFileds();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+       
     }//GEN-LAST:event_customerSaveBtnActionPerformed
 
+    private void customerUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerUpdateBtnActionPerformed
+        // TODO add your handling code here:
+        String id = customerIdTextField.getText();
+        String name = customerNameTextField.getText();
+        String email = customerEmailTextField.getText();
+        String address = customerAddressTextField.getText();
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                System.out.println("Connected!!!");
+                
+                String sql = "UPDATE customers SET name='" + name + "', email='" + email + "', address='" + address + "' WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadCustomerTbl();
+                    cleanCustomerTextFileds();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }//GEN-LAST:event_customerUpdateBtnActionPerformed
 
+    private void loadCustomerTbl() {
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                
+                String sql = "SELECT * FROM customers";
+                
+                Statement stm = conn.createStatement();
+                
+                ResultSet result = stm.executeQuery(sql);
+                
+                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();
+                
+                model.setRowCount(0);
+            
+                while(result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    String email = result.getString("email");
+                    String address = result.getString("address");
+                    
+                    System.out.println(id + ", " + name + ", " + email + ", " + address);
+                    
+                    Object[] new_row = new Object[]{id, name, email, address};
+                    model.addRow(new_row);
+                }
+                
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+    }
+    
+    private void cleanCustomerTextFileds() {
+        customerIdTextField.setText("");
+        customerNameTextField.setText("");
+        customerEmailTextField.setText("");
+        customerAddressTextField.setText("");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField customerAddressTextField;
     private javax.swing.JButton customerDeleteBtn;
