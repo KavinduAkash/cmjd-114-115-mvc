@@ -117,9 +117,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="customerIdTextField">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerIdTextFieldActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -144,9 +141,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="customerNameTextField">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerNameTextFieldActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -171,9 +165,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="customerEmailTextField">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerEmailTextFieldActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -198,9 +189,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="customerAddressTextField">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customerAddressTextFieldActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

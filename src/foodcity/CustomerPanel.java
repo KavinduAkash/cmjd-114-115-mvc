@@ -5,16 +5,21 @@
 
 package foodcity;
 
+
+/**
+ *
+ * @author kavinduakash
+ */
+import foodcity.controller.CustomerController;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author kavinduakash
- */
+import foodcity.dto.CustomerDTO;
+
+
 public class CustomerPanel extends javax.swing.JPanel {
 
     /** Creates new form CustomerPanel */
@@ -79,12 +84,6 @@ public class CustomerPanel extends javax.swing.JPanel {
 
         jLabel2.setText("ID");
         jPanel3.add(jLabel2);
-
-        customerIdTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerIdTextFieldActionPerformed(evt);
-            }
-        });
         jPanel3.add(customerIdTextField);
 
         jPanel6.add(jPanel3);
@@ -95,12 +94,6 @@ public class CustomerPanel extends javax.swing.JPanel {
         jLabel3.setText("Name");
         jLabel3.setPreferredSize(new java.awt.Dimension(200, 17));
         jPanel4.add(jLabel3);
-
-        customerNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerNameTextFieldActionPerformed(evt);
-            }
-        });
         jPanel4.add(customerNameTextField);
 
         jPanel6.add(jPanel4);
@@ -111,12 +104,6 @@ public class CustomerPanel extends javax.swing.JPanel {
         jLabel4.setText("Email");
         jLabel4.setPreferredSize(new java.awt.Dimension(200, 17));
         jPanel5.add(jLabel4);
-
-        customerEmailTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerEmailTextFieldActionPerformed(evt);
-            }
-        });
         jPanel5.add(customerEmailTextField);
 
         jPanel6.add(jPanel5);
@@ -127,12 +114,6 @@ public class CustomerPanel extends javax.swing.JPanel {
         jLabel5.setText("Address");
         jLabel5.setPreferredSize(new java.awt.Dimension(200, 17));
         jPanel7.add(jLabel5);
-
-        customerAddressTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerAddressTextFieldActionPerformed(evt);
-            }
-        });
         jPanel7.add(customerAddressTextField);
 
         jPanel6.add(jPanel7);
@@ -228,22 +209,6 @@ public class CustomerPanel extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void customerIdTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerIdTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customerIdTextFieldActionPerformed
-
-    private void customerAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerAddressTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customerAddressTextFieldActionPerformed
-
-    private void customerEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerEmailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customerEmailTextFieldActionPerformed
-
-    private void customerNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customerNameTextFieldActionPerformed
-
     private void customerSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerSaveBtnActionPerformed
         // TODO add your handling code here: 
         String id = customerIdTextField.getText();
@@ -251,34 +216,19 @@ public class CustomerPanel extends javax.swing.JPanel {
         String email = customerEmailTextField.getText();
         String address = customerAddressTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
         
-        try {
+        CustomerController customerController = new CustomerController();
+        boolean result = customerController.saveCustomer(dto);
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                System.out.println("Connected!!!");
-                
-                String sql = "INSERT INTO customers(id, name, email, address) VALUES (" + id + ", '" + name + "', '"+ email +"', '" + address + "')";
-            
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Customer Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadCustomerTbl();
-                    cleanCustomerTextFileds();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+        if(result) {
+            JOptionPane.showMessageDialog(null, "Customer Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadCustomerTbl();
+            cleanCustomerTextFileds();
+        } else {
+            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-       
+        
     }//GEN-LAST:event_customerSaveBtnActionPerformed
 
     private void customerUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerUpdateBtnActionPerformed
