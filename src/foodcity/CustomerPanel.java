@@ -191,6 +191,11 @@ public class CustomerPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        customerTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                customerTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(customerTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -306,6 +311,27 @@ public class CustomerPanel extends javax.swing.JPanel {
             System.out.println("Something went wrong!!!");
         }
     }//GEN-LAST:event_customerUpdateBtnActionPerformed
+
+    private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
+        // TODO add your handling code here:
+        
+        int row = customerTable.getSelectedRow();
+        System.out.println(row);
+        
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();
+        
+        String id = model.getValueAt(row, 0).toString();
+        String name = model.getValueAt(row, 1).toString();
+        String email = model.getValueAt(row, 2).toString();
+        String address = model.getValueAt(row, 3).toString();
+        
+        System.out.println(id + ", " + name + ",  " + email + ", " + address);
+        
+        customerIdTextField.setText(id);
+        customerNameTextField.setText(name);
+        customerEmailTextField.setText(email);
+        customerAddressTextField.setText(address);
+    }//GEN-LAST:event_customerTableMouseClicked
 
     private void loadCustomerTbl() {
         
