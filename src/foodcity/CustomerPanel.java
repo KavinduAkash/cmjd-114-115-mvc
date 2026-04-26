@@ -159,6 +159,11 @@ public class CustomerPanel extends javax.swing.JPanel {
 
         customerDeleteBtn.setBackground(new java.awt.Color(255, 153, 153));
         customerDeleteBtn.setText("Delete");
+        customerDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerDeleteBtnActionPerformed(evt);
+            }
+        });
         jPanel8.add(customerDeleteBtn);
 
         customerResetBtn.setBackground(new java.awt.Color(255, 255, 51));
@@ -332,6 +337,40 @@ public class CustomerPanel extends javax.swing.JPanel {
         customerEmailTextField.setText(email);
         customerAddressTextField.setText(address);
     }//GEN-LAST:event_customerTableMouseClicked
+
+    private void customerDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerDeleteBtnActionPerformed
+        // TODO add your handling code here:
+        String id = customerIdTextField.getText();
+        
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                System.out.println("Connected!!!");
+                
+                String sql = "DELETE FROM customers WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                if(result > 0) {
+                    JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadCustomerTbl();
+                    cleanCustomerTextFileds();
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+        
+    }//GEN-LAST:event_customerDeleteBtnActionPerformed
 
     private void loadCustomerTbl() {
         
