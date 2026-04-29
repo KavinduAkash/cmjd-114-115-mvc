@@ -238,33 +238,19 @@ public class CustomerPanel extends javax.swing.JPanel {
         String email = customerEmailTextField.getText();
         String address = customerAddressTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
         
-        try {
+        CustomerController controller = new CustomerController();
+        boolean result = controller.updateCustomer(dto);
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                System.out.println("Connected!!!");
-                
-                String sql = "UPDATE customers SET name='" + name + "', email='" + email + "', address='" + address + "' WHERE id=" + id;
-            
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadCustomerTbl();
-                    cleanCustomerTextFileds();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+        if(result) {
+            JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadCustomerTbl();
+            cleanCustomerTextFileds();
+        } else {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+                    
     }//GEN-LAST:event_customerUpdateBtnActionPerformed
 
     private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
