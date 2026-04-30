@@ -4,17 +4,30 @@
  */
 package foodcity;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kavinduakash
  */
 public class OrderPanel extends javax.swing.JPanel {
 
+    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+    private final String DB_USERNAME = "root";
+    private final String DB_PASSWORD = "ijse";
+    
     /**
-     * Creates new form OrderPanel
+     * Creates new form CustomerPanel
      */
     public OrderPanel() {
         initComponents();
+        loadCustomerComboBox();
+        loadItemComboBox();
     }
 
     /**
@@ -26,33 +39,355 @@ public class OrderPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        customerSaveBtn = new javax.swing.JButton();
+        customerResetBtn = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(255, 255, 102));
-        setPreferredSize(new java.awt.Dimension(800, 550));
+        jLabel4.setText("Email");
 
-        jLabel1.setText("Order");
+        jTextField3.setText("jTextField1");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(jLabel1)
-                .addContainerGap(185, Short.MAX_VALUE))
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        setBackground(new java.awt.Color(204, 255, 51));
+        setSize(new java.awt.Dimension(100, 100));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(759, 50));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Order Management");
+        jPanel1.add(jLabel1);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Item", "Qty", "Unit Price", "Total Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
+
+        customerSaveBtn.setBackground(new java.awt.Color(204, 255, 204));
+        customerSaveBtn.setText("Add");
+        customerSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerSaveBtnActionPerformed(evt);
+            }
+        });
+        jPanel7.add(customerSaveBtn);
+
+        customerResetBtn.setBackground(new java.awt.Color(255, 255, 153));
+        customerResetBtn.setText("Reset");
+        jPanel7.add(customerResetBtn);
+
+        jPanel8.setLayout(new java.awt.GridLayout(1, 0));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel3.setText("Customer");
+        jPanel3.add(jLabel3);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jComboBox1);
+
+        jPanel8.add(jPanel3);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel5.setText("Item");
+        jPanel4.add(jLabel5);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel4.add(jComboBox2);
+
+        jPanel8.add(jPanel4);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel2.setText("Available Qty");
+        jPanel5.add(jLabel2);
+
+        jTextField1.setEditable(false);
+        jTextField1.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel5.add(jTextField1);
+
+        jPanel8.add(jPanel5);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel6.setText("Price");
+        jPanel6.add(jLabel6);
+
+        jTextField5.setEditable(false);
+        jTextField5.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel6.add(jTextField5);
+
+        jPanel8.add(jPanel6);
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new java.awt.GridLayout(2, 1));
+
+        jLabel7.setText("Qty");
+        jPanel9.add(jLabel7);
+
+        jTextField6.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel9.add(jTextField6);
+
+        jPanel8.add(jPanel9);
+
+        jPanel10.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        jLabel8.setText("Total:");
+        jPanel10.add(jLabel8);
+
+        jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel9.setText("0.0");
+        jPanel10.add(jLabel9);
+
+        jPanel11.setLayout(new java.awt.GridLayout(1, 0));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 102));
+        jButton1.setText("Reset");
+        jPanel11.add(jButton1);
+
+        jButton2.setBackground(new java.awt.Color(102, 153, 255));
+        jButton2.setText("Place Order");
+        jButton2.setPreferredSize(new java.awt.Dimension(99, 80));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel11.add(jButton2);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(jLabel1)
-                .addContainerGap(149, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void customerSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerSaveBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customerSaveBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+//        int selectedId = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+//        try {
+//            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+//            
+//            String sqlQuery = "SELECT * FROM items WHERE id=?";
+//            
+//            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+//            preparedStatement.setInt(1, selectedId);
+//            
+//            ResultSet result = preparedStatement.executeQuery();
+//            
+//            while(result.next()) {
+//                int qty = result.getInt("qty");
+//                double price = result.getDouble("unit_price");
+//                jTextField1.setText(Integer.toString(qty));
+//                jTextField5.setText(Double.toString(price));
+//            }
+//            
+//            JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success",JOptionPane.INFORMATION_MESSAGE);
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
+//        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void loadCustomerComboBox() {
+        
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            
+            String sqlQuery = "SELECT * FROM customers";
+            
+            Statement statement = connection.createStatement();
+            
+            ResultSet result = statement.executeQuery(sqlQuery);
+            
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();    
+            model.setRowCount(0); 
+            
+            jComboBox1.removeAllItems();
+            
+            while(result.next()) {
+                int id = result.getInt("id");
+                jComboBox1.addItem(Integer.toString(id));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+    
+    private void loadItemComboBox() {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            
+            String sqlQuery = "SELECT * FROM items";
+            
+            Statement statement = connection.createStatement();
+            
+            ResultSet result = statement.executeQuery(sqlQuery);
+            
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();    
+            model.setRowCount(0); 
+            
+            jComboBox2.removeAllItems();
+            
+            while(result.next()) {
+                int id = result.getInt("id");
+                jComboBox2.addItem(Integer.toString(id));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton customerResetBtn;
+    private javax.swing.JButton customerSaveBtn;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

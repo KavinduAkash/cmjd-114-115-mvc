@@ -15,11 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author kavinduakash
  */
-public class ItemPanel extends javax.swing.JPanel {
-
-    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-    private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "ijse";
+public class ItemPanel extends javax.swing.JPanel {   
     
     /**
      * Creates new form CustomerPanel
