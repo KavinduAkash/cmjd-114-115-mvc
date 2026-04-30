@@ -7,7 +7,10 @@ package foodcity.controller;
 import foodcity.dto.CustomerDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -103,6 +106,43 @@ public class CustomerController {
         }
         
         return rs;
+    }
+    
+    public List<CustomerDTO> getCustomers() {
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        List<CustomerDTO> dtos = new ArrayList<>();
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                
+                String sql = "SELECT * FROM customers";
+                
+                Statement stm = conn.createStatement();
+                
+                ResultSet result = stm.executeQuery(sql);
+            
+                while(result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    String email = result.getString("email");
+                    String address = result.getString("address");
+                    
+                    CustomerDTO dto = new CustomerDTO(id, name, email, address);
+                    dtos.add(dto);
+                }
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+        
+        return dtos;
+        
     }
     
 }

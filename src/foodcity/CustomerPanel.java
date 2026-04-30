@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 import foodcity.dto.CustomerDTO;
+import java.util.List;
 
 
 public class CustomerPanel extends javax.swing.JPanel {
@@ -292,42 +293,18 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void loadCustomerTbl() {
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();        
+        model.setRowCount(0);
         
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                
-                String sql = "SELECT * FROM customers";
-                
-                Statement stm = conn.createStatement();
-                
-                ResultSet result = stm.executeQuery(sql);
-                
-                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();
-                
-                model.setRowCount(0);
-            
-                while(result.next()) {
-                    int id = result.getInt("id");
-                    String name = result.getString("name");
-                    String email = result.getString("email");
-                    String address = result.getString("address");
-                    
-                    System.out.println(id + ", " + name + ", " + email + ", " + address);
-                    
-                    Object[] new_row = new Object[]{id, name, email, address};
-                    model.addRow(new_row);
-                }
-                
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+        CustomerController controller = new CustomerController();
+        
+        List<CustomerDTO> dtos = controller.getCustomers();
+        
+        for(CustomerDTO dto : dtos) {
+            Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getEmail(), dto.getAddress()};
+            model.addRow(new_row);
         }
+
     }
     
     private void cleanCustomerTextFileds() {
