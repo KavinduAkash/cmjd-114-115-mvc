@@ -4,11 +4,14 @@
  */
 package foodcity;
 
+import foodcity.controller.CustomerController;
+import foodcity.dto.CustomerDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,9 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class OrderPanel extends javax.swing.JPanel {
 
-    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-    private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "ijse";
+    private final CustomerController customerController = new CustomerController();
     
     /**
      * Creates new form CustomerPanel
@@ -27,7 +28,6 @@ public class OrderPanel extends javax.swing.JPanel {
     public OrderPanel() {
         initComponents();
         loadCustomerComboBox();
-        loadItemComboBox();
     }
 
     /**
@@ -54,10 +54,10 @@ public class OrderPanel extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        customerComboBox = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        itemComboBox = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -150,13 +150,13 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel3.setText("Customer");
         jPanel3.add(jLabel3);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        customerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        customerComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                customerComboBoxActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox1);
+        jPanel3.add(customerComboBox);
 
         jPanel8.add(jPanel3);
 
@@ -166,8 +166,8 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel5.setText("Item");
         jPanel4.add(jLabel5);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel4.add(jComboBox2);
+        itemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel4.add(itemComboBox);
 
         jPanel8.add(jPanel4);
 
@@ -272,95 +272,32 @@ public class OrderPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-//        int selectedId = Integer.parseInt(jComboBox1.getSelectedItem().toString());
-//        try {
-//            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-//            
-//            String sqlQuery = "SELECT * FROM items WHERE id=?";
-//            
-//            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-//            preparedStatement.setInt(1, selectedId);
-//            
-//            ResultSet result = preparedStatement.executeQuery();
-//            
-//            while(result.next()) {
-//                int qty = result.getInt("qty");
-//                double price = result.getDouble("unit_price");
-//                jTextField1.setText(Integer.toString(qty));
-//                jTextField5.setText(Double.toString(price));
-//            }
-//            
-//            JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success",JOptionPane.INFORMATION_MESSAGE);
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//            System.out.println(e.getMessage());
-//            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
-//        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
+
+    }//GEN-LAST:event_customerComboBoxActionPerformed
 
     private void loadCustomerComboBox() {
+        List<CustomerDTO> dtos = customerController.getCustomers();
         
-        try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            
-            String sqlQuery = "SELECT * FROM customers";
-            
-            Statement statement = connection.createStatement();
-            
-            ResultSet result = statement.executeQuery(sqlQuery);
-            
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();    
-            model.setRowCount(0); 
-            
-            jComboBox1.removeAllItems();
-            
-            while(result.next()) {
-                int id = result.getInt("id");
-                jComboBox1.addItem(Integer.toString(id));
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
+        customerComboBox.removeAllItems();
+        
+        for(CustomerDTO dto : dtos) {
+            int id = dto.getId();
+            customerComboBox.addItem(Integer.toString(id));
         }
-        
     }
     
     private void loadItemComboBox() {
-        try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            
-            String sqlQuery = "SELECT * FROM items";
-            
-            Statement statement = connection.createStatement();
-            
-            ResultSet result = statement.executeQuery(sqlQuery);
-            
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();    
-            model.setRowCount(0); 
-            
-            jComboBox2.removeAllItems();
-            
-            while(result.next()) {
-                int id = result.getInt("id");
-                jComboBox2.addItem(Integer.toString(id));
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error",JOptionPane.ERROR_MESSAGE);
-        }
+    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> customerComboBox;
     private javax.swing.JButton customerResetBtn;
     private javax.swing.JButton customerSaveBtn;
+    private javax.swing.JComboBox<String> itemComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

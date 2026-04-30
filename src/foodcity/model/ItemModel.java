@@ -4,6 +4,7 @@
  */
 package foodcity.model;
 
+import foodcity.db.DBConnection;
 import foodcity.dto.ItemDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,16 +19,12 @@ import java.util.List;
  */
 public class ItemModel {
     
-    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-    private final String DB_USER = "root";
-    private final String DB_PASSWORD = "ijse";
-    
     public boolean saveItem(ItemDTO dto) {        
         boolean rs = false;
         
         try {
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 
@@ -52,7 +49,7 @@ public class ItemModel {
         
         try {
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 String sql = "UPDATE items SET name='" + dto.getName() + "', qty=" + dto.getQty() + ", unit_price='" + dto.getPrice() + "' WHERE id=" + dto.getId();
@@ -76,7 +73,7 @@ public class ItemModel {
         
         try {
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 String sql = "DELETE FROM items WHERE id=" + id;
@@ -99,7 +96,7 @@ public class ItemModel {
         List<ItemDTO> dtos = new ArrayList<>();
         
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 

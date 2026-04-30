@@ -53,7 +53,7 @@ public class CustomerModel {
         boolean rs = false;
         
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 System.out.println("Connected!!!");
@@ -79,7 +79,7 @@ public class CustomerModel {
         
         try {
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 System.out.println("Connected!!!");
@@ -105,7 +105,7 @@ public class CustomerModel {
         List<CustomerDTO> dtos = new ArrayList<>();
         
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 
