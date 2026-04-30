@@ -17,11 +17,12 @@ import java.util.List;
  * @author kavinduakash
  */
 public class ItemModel {
-    public boolean saveItem(ItemDTO dto) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
+    
+    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+    private final String DB_USER = "root";
+    private final String DB_PASSWORD = "ijse";
+    
+    public boolean saveItem(ItemDTO dto) {        
         boolean rs = false;
         
         try {
@@ -47,10 +48,6 @@ public class ItemModel {
     }
     
     public boolean updateItem(ItemDTO dto) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         boolean rs = false;
         
         try {
@@ -75,10 +72,6 @@ public class ItemModel {
     }
     
     public boolean deleteItem(int id) {
-         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         boolean rs = false;
         
         try {
@@ -103,10 +96,6 @@ public class ItemModel {
     }
     
     public List<ItemDTO> getItems() {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         List<ItemDTO> dtos = new ArrayList<>();
         
         try {

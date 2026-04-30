@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author kavinduakash
  */
 public class ItemPanel extends javax.swing.JPanel {   
-    
+    private final ItemController controller = new ItemController();
     /**
      * Creates new form CustomerPanel
      */
@@ -239,8 +239,6 @@ public class ItemPanel extends javax.swing.JPanel {
         String qty = itemQtyTextField.getText();
         String price = itemPriceTextField.getText();
         
-        ItemController controller = new ItemController();
-        
         ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
         
         boolean result = controller.saveItem(dto);
@@ -265,8 +263,6 @@ public class ItemPanel extends javax.swing.JPanel {
         String qty = itemQtyTextField.getText();
         String price = itemPriceTextField.getText();
         
-        ItemController controller = new ItemController();
-        
         ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
         
         boolean result = controller.updateItem(dto);
@@ -286,8 +282,6 @@ public class ItemPanel extends javax.swing.JPanel {
 
     private void itemDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteBtnActionPerformed
         String id = itemIdTextField.getText();
-        
-        ItemController controller = new ItemController();
         
         boolean result = controller.deleteItem(Integer.parseInt(id));
         
@@ -330,7 +324,6 @@ public class ItemPanel extends javax.swing.JPanel {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
         model.setRowCount(0);
         
-        ItemController controller = new ItemController();
         List<ItemDTO> result = controller.getItems();
         
         for(ItemDTO dto : result) {

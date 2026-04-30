@@ -4,6 +4,7 @@
  */
 package foodcity.model;
 
+import foodcity.db.DBConnection;
 import foodcity.dto.CustomerDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,7 +27,7 @@ public class CustomerModel {
        
         
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
                 System.out.println("Connected!!!");

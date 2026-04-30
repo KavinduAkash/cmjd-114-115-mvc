@@ -14,17 +14,17 @@ import java.util.List;
  */
 public class ItemController {
     
+    private final ItemModel item = new ItemModel();
+    
     public boolean saveItem(ItemDTO dto) {
         
-        ItemModel item = new ItemModel();
         boolean result = item.saveItem(dto);
         return result;
         
     }
     
     public boolean updateItem(ItemDTO dto) {
-        
-        ItemModel item = new ItemModel();
+       
         boolean result = item.updateItem(dto);
         return result;
         
@@ -32,7 +32,6 @@ public class ItemController {
     
     public boolean deleteItem(int id) {
         
-        ItemModel item = new ItemModel();
         boolean result = item.deleteItem(id);
         return result;
         
@@ -40,7 +39,6 @@ public class ItemController {
     
     public List<ItemDTO> getItems() {
         
-        ItemModel item = new ItemModel();
         List<ItemDTO> result = item.getItems();
         return result;
         
