@@ -171,6 +171,11 @@ public class OrderPanel extends javax.swing.JPanel {
         jPanel4.add(jLabel5);
 
         itemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        itemComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemComboBoxActionPerformed(evt);
+            }
+        });
         jPanel4.add(itemComboBox);
 
         jPanel8.add(jPanel4);
@@ -277,8 +282,18 @@ public class OrderPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
-
+        
+        String id = (String)customerComboBox.getSelectedItem();
+        System.out.println(id);
+        
     }//GEN-LAST:event_customerComboBoxActionPerformed
+
+    private void itemComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemComboBoxActionPerformed
+        
+        String id = (String)itemComboBox.getSelectedItem();
+        System.out.println(id);
+        
+    }//GEN-LAST:event_itemComboBoxActionPerformed
 
     private void loadCustomerComboBox() {
         List<CustomerDTO> dtos = customerController.getCustomers();

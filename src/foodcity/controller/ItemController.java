@@ -44,4 +44,11 @@ public class ItemController {
         
     }
     
+    public ItemDTO getItemDetails(int id) {
+        
+        ItemDTO result = item.getItemDetails(id);
+        return result;
+        
+    }
+    
 }

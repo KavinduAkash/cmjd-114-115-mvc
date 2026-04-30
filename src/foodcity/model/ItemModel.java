@@ -124,4 +124,36 @@ public class ItemModel {
         
         return dtos;
     }
+    
+    public ItemDTO getItemDetails(int id) {
+        ItemDTO dto = null;
+        
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            
+            if(conn!=null) {
+                
+                String sql = "SELECT * FROM items WHERE id=" + id;
+                
+                Statement stm = conn.createStatement();
+                
+                ResultSet result = stm.executeQuery(sql);
+            
+                while(result.next()) {
+                    int itemId = result.getInt("id");
+                    String name = result.getString("name");
+                    int qty = result.getInt("qty");
+                    double price = result.getDouble("unit_price");
+                    
+                    dto = new ItemDTO(itemId, name, qty, price);
+                }
+                
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+        
+        return dto;
+    }
 }
