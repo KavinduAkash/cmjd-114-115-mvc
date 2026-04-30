@@ -18,13 +18,14 @@ import java.util.List;
  */
 public class CustomerModel {
     
+    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+    private final String DB_USER = "root";
+    private final String DB_PASSWORD = "ijse";
+    
     public boolean saveCustomer(CustomerDTO dto) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+       
         
         try {
-        
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             
             if(conn!=null) {
@@ -48,10 +49,6 @@ public class CustomerModel {
     }
     
     public boolean updateCustomer(CustomerDTO dto) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         boolean rs = false;
         
         try {
@@ -77,10 +74,6 @@ public class CustomerModel {
     }
     
     public boolean deleteCustomer(int id) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         boolean rs = false;
         
         try {
@@ -108,10 +101,6 @@ public class CustomerModel {
     }
     
     public List<CustomerDTO> getCustomers() {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
         List<CustomerDTO> dtos = new ArrayList<>();
         
         try {

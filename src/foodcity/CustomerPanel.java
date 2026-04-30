@@ -23,6 +23,8 @@ import java.util.List;
 
 public class CustomerPanel extends javax.swing.JPanel {
 
+    private final CustomerController customerController = new CustomerController();
+    
     /** Creates new form CustomerPanel */
     public CustomerPanel() {
         initComponents();
@@ -219,7 +221,6 @@ public class CustomerPanel extends javax.swing.JPanel {
         
         CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
         
-        CustomerController customerController = new CustomerController();
         boolean result = customerController.saveCustomer(dto);
         
         if(result) {
@@ -241,8 +242,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         
         CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
         
-        CustomerController controller = new CustomerController();
-        boolean result = controller.updateCustomer(dto);
+        boolean result = customerController.updateCustomer(dto);
         
         if(result) {
             JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -279,8 +279,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         String id = customerIdTextField.getText();
         
-        CustomerController controller = new CustomerController();
-        boolean result = controller.deleteCustomer(Integer.parseInt(id));
+        boolean result = customerController.deleteCustomer(Integer.parseInt(id));
         
         if(result) {
             JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -296,9 +295,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();        
         model.setRowCount(0);
         
-        CustomerController controller = new CustomerController();
-        
-        List<CustomerDTO> dtos = controller.getCustomers();
+        List<CustomerDTO> dtos = customerController.getCustomers();
         
         for(CustomerDTO dto : dtos) {
             Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getEmail(), dto.getAddress()};

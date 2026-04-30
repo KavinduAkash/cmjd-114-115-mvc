@@ -19,9 +19,10 @@ import java.util.List;
  */
 public class CustomerController {
     
+    private final CustomerModel model = new CustomerModel();
+    
     public boolean saveCustomer(CustomerDTO dto) {
         
-        CustomerModel model = new CustomerModel();
         boolean result = model.saveCustomer(dto);
         return result;
         
@@ -29,7 +30,6 @@ public class CustomerController {
     
     public boolean updateCustomer(CustomerDTO dto) {
         
-        CustomerModel model = new CustomerModel();
         boolean result = model.updateCustomer(dto);
         return result;
     
@@ -37,15 +37,13 @@ public class CustomerController {
     
     public boolean deleteCustomer(int id) {
         
-        CustomerModel model = new CustomerModel();
         boolean result = model.deleteCustomer(id);
         return result;
         
     }
     
     public List<CustomerDTO> getCustomers() {
-        
-        CustomerModel model = new CustomerModel();
+               
         List<CustomerDTO> result = model.getCustomers();
         return result;
         
