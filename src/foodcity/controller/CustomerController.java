@@ -46,7 +46,7 @@ public class CustomerController {
     }
     
     public boolean updateCustomer(CustomerDTO dto) {
-    String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
         String DB_USER = "root";
         String DB_PASSWORD = "ijse";
         
@@ -65,6 +65,37 @@ public class CustomerController {
                 int result = stm.executeUpdate(sql);
                 
                 rs = result > 0;
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+        
+        return rs;
+    }
+    
+    public boolean deleteCustomer(int id) {
+        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        boolean rs = false;
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                System.out.println("Connected!!!");
+                
+                String sql = "DELETE FROM customers WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                rs = result > 0;
+                
             }
             
         } catch(Exception e) {

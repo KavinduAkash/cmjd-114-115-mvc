@@ -278,34 +278,16 @@ public class CustomerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         String id = customerIdTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        CustomerController controller = new CustomerController();
+        boolean result = controller.deleteCustomer(Integer.parseInt(id));
         
-        try {
-        
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                System.out.println("Connected!!!");
-                
-                String sql = "DELETE FROM customers WHERE id=" + id;
-            
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadCustomerTbl();
-                    cleanCustomerTextFileds();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+        if(result) {
+            JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadCustomerTbl();
+            cleanCustomerTextFileds();
+        } else {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
     }//GEN-LAST:event_customerDeleteBtnActionPerformed
 
     private void loadCustomerTbl() {
