@@ -64,10 +64,10 @@ public class OrderPanel extends javax.swing.JPanel {
         itemComboBox = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        availableQtyTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        priceTextField = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
@@ -186,9 +186,9 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel2.setText("Available Qty");
         jPanel5.add(jLabel2);
 
-        jTextField1.setEditable(false);
-        jTextField1.setPreferredSize(new java.awt.Dimension(150, 23));
-        jPanel5.add(jTextField1);
+        availableQtyTextField.setEditable(false);
+        availableQtyTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel5.add(availableQtyTextField);
 
         jPanel8.add(jPanel5);
 
@@ -198,9 +198,9 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel6.setText("Price");
         jPanel6.add(jLabel6);
 
-        jTextField5.setEditable(false);
-        jTextField5.setPreferredSize(new java.awt.Dimension(150, 23));
-        jPanel6.add(jTextField5);
+        priceTextField.setEditable(false);
+        priceTextField.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel6.add(priceTextField);
 
         jPanel8.add(jPanel6);
 
@@ -282,16 +282,25 @@ public class OrderPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
-        
-        String id = (String)customerComboBox.getSelectedItem();
-        System.out.println(id);
-        
+
+        String id = (String)customerComboBox.getSelectedItem();        
     }//GEN-LAST:event_customerComboBoxActionPerformed
 
     private void itemComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemComboBoxActionPerformed
         
         String id = (String)itemComboBox.getSelectedItem();
-        System.out.println(id);
+        System.out.println(id); // null
+        
+        if(id != null) {
+            if(!id.equals("NAN")) {
+                ItemDTO dto = itemController.getItemDetails(Integer.parseInt(id));
+                int qty = dto.getQty();
+                double price = dto.getPrice();
+                
+                availableQtyTextField.setText(Integer.toString(qty));
+                priceTextField.setText(Double.toString(price));
+            }
+        }        
         
     }//GEN-LAST:event_itemComboBoxActionPerformed
 
@@ -299,6 +308,8 @@ public class OrderPanel extends javax.swing.JPanel {
         List<CustomerDTO> dtos = customerController.getCustomers();
         
         customerComboBox.removeAllItems();
+        
+        customerComboBox.addItem("NAN");
         
         for(CustomerDTO dto : dtos) {
             int id = dto.getId();
@@ -311,6 +322,8 @@ public class OrderPanel extends javax.swing.JPanel {
         
         itemComboBox.removeAllItems();
         
+        itemComboBox.addItem("NAN");
+        
         for(ItemDTO dto : dtos) {
             int id = dto.getId();
             itemComboBox.addItem(Integer.toString(id));
@@ -318,6 +331,7 @@ public class OrderPanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField availableQtyTextField;
     private javax.swing.JComboBox<String> customerComboBox;
     private javax.swing.JButton customerResetBtn;
     private javax.swing.JButton customerSaveBtn;
@@ -348,9 +362,8 @@ public class OrderPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField priceTextField;
     // End of variables declaration//GEN-END:variables
 }
