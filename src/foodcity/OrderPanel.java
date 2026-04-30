@@ -5,7 +5,9 @@
 package foodcity;
 
 import foodcity.controller.CustomerController;
+import foodcity.controller.ItemController;
 import foodcity.dto.CustomerDTO;
+import foodcity.dto.ItemDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +23,7 @@ import javax.swing.JOptionPane;
 public class OrderPanel extends javax.swing.JPanel {
 
     private final CustomerController customerController = new CustomerController();
+    private final ItemController itemController = new ItemController();
     
     /**
      * Creates new form CustomerPanel
@@ -28,6 +31,7 @@ public class OrderPanel extends javax.swing.JPanel {
     public OrderPanel() {
         initComponents();
         loadCustomerComboBox();
+        loadItemComboBox();
     }
 
     /**
@@ -288,7 +292,14 @@ public class OrderPanel extends javax.swing.JPanel {
     }
     
     private void loadItemComboBox() {
-    
+        List<ItemDTO> dtos = itemController.getItems();
+        
+        itemComboBox.removeAllItems();
+        
+        for(ItemDTO dto : dtos) {
+            int id = dto.getId();
+            itemComboBox.addItem(Integer.toString(id));
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
