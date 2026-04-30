@@ -4,11 +4,14 @@
  */
 package foodcity;
 
+import foodcity.controller.ItemController;
+import foodcity.dto.ItemDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -200,11 +203,6 @@ public class ItemPanel extends javax.swing.JPanel {
         jPanel6.add(jLabel6);
 
         itemPriceTextField.setPreferredSize(new java.awt.Dimension(150, 23));
-        itemPriceTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemPriceTextFieldActionPerformed(evt);
-            }
-        });
         jPanel6.add(itemPriceTextField);
 
         jPanel8.add(jPanel6);
@@ -241,31 +239,22 @@ public class ItemPanel extends javax.swing.JPanel {
         String qty = itemQtyTextField.getText();
         String price = itemPriceTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        ItemController controller = new ItemController();
         
-        try {
+        ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        boolean result = controller.saveItem(dto);
+        
+        if(result) {
+       
+            JOptionPane.showMessageDialog(null, "Item Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadItemTbl();
+            cleanItemTextFields();
             
-            if(conn!=null) {
-                
-                String sql = "INSERT INTO items(id, name, qty, unit_price) VALUES (" + id + ", '" + name + "', "+ qty +", " + price + ")";
+        } else {
             
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Item Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadItemTbl();
-                    cleanItemTextFields();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        
         }
     }//GEN-LAST:event_itemSaveBtnActionPerformed
 
@@ -276,60 +265,42 @@ public class ItemPanel extends javax.swing.JPanel {
         String qty = itemQtyTextField.getText();
         String price = itemPriceTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        ItemController controller = new ItemController();
         
-        try {
+        ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        boolean result = controller.updateItem(dto);
+        
+        if(result) {
+       
+            JOptionPane.showMessageDialog(null, "Item Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadItemTbl();
+            cleanItemTextFields();
             
-            if(conn!=null) {
-                String sql = "UPDATE items SET name='" + name + "', qty=" + qty + ", unit_price='" + price + "' WHERE id=" + id;
+        } else {
             
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Item Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadItemTbl();
-                    cleanItemTextFields();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        
         }
     }//GEN-LAST:event_itemUpdateBtnActionPerformed
 
     private void itemDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteBtnActionPerformed
         String id = itemIdTextField.getText();
         
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
+        ItemController controller = new ItemController();
         
-        try {
+        boolean result = controller.deleteItem(Integer.parseInt(id));
         
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        if(result) {
+       
+            JOptionPane.showMessageDialog(null, "Item Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadItemTbl();
+            cleanItemTextFields();
             
-            if(conn!=null) {
-                String sql = "DELETE FROM items WHERE id=" + id;
+        } else {
             
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-                
-                if(result > 0) {
-                    JOptionPane.showMessageDialog(null, "Item Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadItemTbl();
-                    cleanItemTextFields();
-                }
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        
         }
     }//GEN-LAST:event_itemDeleteBtnActionPerformed
 
@@ -353,46 +324,20 @@ public class ItemPanel extends javax.swing.JPanel {
         itemQtyTextField.setText(qty);
         itemPriceTextField.setText(price);
     }//GEN-LAST:event_itemTableMouseClicked
-
-    private void itemPriceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPriceTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemPriceTextFieldActionPerformed
     
     private void loadItemTbl() {
-         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
         
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                
-                String sql = "SELECT * FROM items";
-                
-                Statement stm = conn.createStatement();
-                
-                ResultSet result = stm.executeQuery(sql);
-                
-                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
-                
-                model.setRowCount(0);
-            
-                while(result.next()) {
-                    int id = result.getInt("id");
-                    String name = result.getString("name");
-                    int qty = result.getInt("qty");
-                    double price = result.getDouble("unit_price");
-                    
-                    Object[] new_row = new Object[]{id, name, qty, price};
-                    model.addRow(new_row);
-                }
-                
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
+        model.setRowCount(0);
+        
+        ItemController controller = new ItemController();
+        List<ItemDTO> result = controller.getItems();
+        
+        for(ItemDTO dto : result) {
+            Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getQty(), dto.getPrice()};
+            model.addRow(new_row);
         }
+       
     }
     
     private void cleanItemTextFields() {

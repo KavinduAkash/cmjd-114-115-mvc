@@ -4,7 +4,7 @@
  */
 package foodcity.model;
 
-import foodcity.dto.CustomerDTO;
+import foodcity.dto.ItemDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,38 +16,8 @@ import java.util.List;
  *
  * @author kavinduakash
  */
-public class CustomerModel {
-    
-    public boolean saveCustomer(CustomerDTO dto) {
-        String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-        String DB_USER = "root";
-        String DB_PASSWORD = "ijse";
-        
-        try {
-        
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            
-            if(conn!=null) {
-                System.out.println("Connected!!!");
-                
-                String sql = "INSERT INTO customers(id, name, email, address) VALUES (" + dto.getId() + ", '" + dto.getName() + "', '"+ dto.getEmail() +"', '" + dto.getAddress() + "')";
-            
-                Statement stm = conn.createStatement();
-                
-                int result = stm.executeUpdate(sql);
-               
-                return result > 0;
-            }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
-        
-        return false;
-        
-    }
-    
-    public boolean updateCustomer(CustomerDTO dto) {
+public class ItemModel {
+    public boolean saveItem(ItemDTO dto) {
         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
         String DB_USER = "root";
         String DB_PASSWORD = "ijse";
@@ -55,12 +25,12 @@ public class CustomerModel {
         boolean rs = false;
         
         try {
+        
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             
             if(conn!=null) {
-                System.out.println("Connected!!!");
                 
-                String sql = "UPDATE customers SET name='" + dto.getName() + "', email='" + dto.getEmail() + "', address='" + dto.getAddress() + "' WHERE id=" + dto.getId();
+                String sql = "INSERT INTO items(id, name, qty, unit_price) VALUES (" + dto.getId() + ", '" + dto.getName() + "', "+ dto.getQty() +", " + dto.getPrice() + ")";
             
                 Statement stm = conn.createStatement();
                 
@@ -76,7 +46,7 @@ public class CustomerModel {
         return rs;
     }
     
-    public boolean deleteCustomer(int id) {
+    public boolean updateItem(ItemDTO dto) {
         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
         String DB_USER = "root";
         String DB_PASSWORD = "ijse";
@@ -88,16 +58,13 @@ public class CustomerModel {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             
             if(conn!=null) {
-                System.out.println("Connected!!!");
-                
-                String sql = "DELETE FROM customers WHERE id=" + id;
+                String sql = "UPDATE items SET name='" + dto.getName() + "', qty=" + dto.getQty() + ", unit_price='" + dto.getPrice() + "' WHERE id=" + dto.getId();
             
                 Statement stm = conn.createStatement();
                 
                 int result = stm.executeUpdate(sql);
                 
                 rs = result > 0;
-                
             }
             
         } catch(Exception e) {
@@ -107,19 +74,47 @@ public class CustomerModel {
         return rs;
     }
     
-    public List<CustomerDTO> getCustomers() {
+    public boolean deleteItem(int id) {
+         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
+        String DB_USER = "root";
+        String DB_PASSWORD = "ijse";
+        
+        boolean rs = false;
+        
+        try {
+        
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            
+            if(conn!=null) {
+                String sql = "DELETE FROM items WHERE id=" + id;
+            
+                Statement stm = conn.createStatement();
+                
+                int result = stm.executeUpdate(sql);
+                
+                rs = result > 0;
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Something went wrong!!!");
+        }
+        
+        return rs;
+    }
+    
+    public List<ItemDTO> getItems() {
         String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
         String DB_USER = "root";
         String DB_PASSWORD = "ijse";
         
-        List<CustomerDTO> dtos = new ArrayList<>();
+        List<ItemDTO> dtos = new ArrayList<>();
         
         try {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             
             if(conn!=null) {
                 
-                String sql = "SELECT * FROM customers";
+                String sql = "SELECT * FROM items";
                 
                 Statement stm = conn.createStatement();
                 
@@ -128,12 +123,13 @@ public class CustomerModel {
                 while(result.next()) {
                     int id = result.getInt("id");
                     String name = result.getString("name");
-                    String email = result.getString("email");
-                    String address = result.getString("address");
+                    int qty = result.getInt("qty");
+                    double price = result.getDouble("unit_price");
                     
-                    CustomerDTO dto = new CustomerDTO(id, name, email, address);
+                    ItemDTO dto = new ItemDTO(id, name, qty, price);
                     dtos.add(dto);
                 }
+                
             }
             
         } catch(Exception e) {
@@ -142,5 +138,4 @@ public class CustomerModel {
         
         return dtos;
     }
-    
 }
