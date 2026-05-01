@@ -24,6 +24,7 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private final CustomerController customerController = new CustomerController();
     private final ItemController itemController = new ItemController();
+    private double total = 0.0;
     
     /**
      * Creates new form CustomerPanel
@@ -51,10 +52,10 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        orderCartTbl = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
-        customerSaveBtn = new javax.swing.JButton();
-        customerResetBtn = new javax.swing.JButton();
+        addToCartBtn = new javax.swing.JButton();
+        resetBtn = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,13 +71,13 @@ public class OrderPanel extends javax.swing.JPanel {
         priceTextField = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        qtyTextFiled = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        totalLbl = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        orderResetBtn = new javax.swing.JButton();
+        placeOrderBtn = new javax.swing.JButton();
 
         jLabel4.setText("Email");
 
@@ -103,12 +104,9 @@ public class OrderPanel extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        orderCartTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Item", "Qty", "Unit Price", "Total Price"
@@ -129,22 +127,22 @@ public class OrderPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(orderCartTbl);
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 0));
 
-        customerSaveBtn.setBackground(new java.awt.Color(204, 255, 204));
-        customerSaveBtn.setText("Add");
-        customerSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+        addToCartBtn.setBackground(new java.awt.Color(204, 255, 204));
+        addToCartBtn.setText("Add");
+        addToCartBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerSaveBtnActionPerformed(evt);
+                addToCartBtnActionPerformed(evt);
             }
         });
-        jPanel7.add(customerSaveBtn);
+        jPanel7.add(addToCartBtn);
 
-        customerResetBtn.setBackground(new java.awt.Color(255, 255, 153));
-        customerResetBtn.setText("Reset");
-        jPanel7.add(customerResetBtn);
+        resetBtn.setBackground(new java.awt.Color(255, 255, 153));
+        resetBtn.setText("Reset");
+        jPanel7.add(resetBtn);
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -210,8 +208,8 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel7.setText("Qty");
         jPanel9.add(jLabel7);
 
-        jTextField6.setPreferredSize(new java.awt.Dimension(150, 23));
-        jPanel9.add(jTextField6);
+        qtyTextFiled.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel9.add(qtyTextFiled);
 
         jPanel8.add(jPanel9);
 
@@ -221,26 +219,26 @@ public class OrderPanel extends javax.swing.JPanel {
         jLabel8.setText("Total:");
         jPanel10.add(jLabel8);
 
-        jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel9.setText("0.0");
-        jPanel10.add(jLabel9);
+        totalLbl.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        totalLbl.setForeground(new java.awt.Color(0, 0, 204));
+        totalLbl.setText("0.0");
+        jPanel10.add(totalLbl);
 
         jPanel11.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 102));
-        jButton1.setText("Reset");
-        jPanel11.add(jButton1);
+        orderResetBtn.setBackground(new java.awt.Color(255, 255, 102));
+        orderResetBtn.setText("Reset");
+        jPanel11.add(orderResetBtn);
 
-        jButton2.setBackground(new java.awt.Color(102, 153, 255));
-        jButton2.setText("Place Order");
-        jButton2.setPreferredSize(new java.awt.Dimension(99, 80));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        placeOrderBtn.setBackground(new java.awt.Color(102, 153, 255));
+        placeOrderBtn.setText("Place Order");
+        placeOrderBtn.setPreferredSize(new java.awt.Dimension(99, 80));
+        placeOrderBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                placeOrderBtnActionPerformed(evt);
             }
         });
-        jPanel11.add(jButton2);
+        jPanel11.add(placeOrderBtn);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -273,13 +271,29 @@ public class OrderPanel extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void customerSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerSaveBtnActionPerformed
+    private void addToCartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_customerSaveBtnActionPerformed
+        String selectedItemid = (String)itemComboBox.getSelectedItem();
+        String qty = qtyTextFiled.getText();
+        
+        ItemDTO dto = itemController.getItemDetails(Integer.parseInt(selectedItemid));
+        
+        double totalItemValue = Integer.parseInt(qty) * dto.getPrice();
+        total+=totalItemValue;
+        
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
+        
+        Object[] new_row = new Object[]{dto.getId(), dto.getName(), qty, dto.getPrice(), totalItemValue};
+        model.addRow(new_row);
+        
+        totalLbl.setText(Double.toString(total));
+        
+        cleanForm();
+    }//GEN-LAST:event_addToCartBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void placeOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_placeOrderBtnActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
 
@@ -329,15 +343,19 @@ public class OrderPanel extends javax.swing.JPanel {
             itemComboBox.addItem(Integer.toString(id));
         }
     }
-
+    
+    private void cleanForm() {
+        availableQtyTextField.setText("");
+        priceTextField.setText("");
+        qtyTextFiled.setText("");
+        itemComboBox.setSelectedIndex(0);   
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addToCartBtn;
     private javax.swing.JTextField availableQtyTextField;
     private javax.swing.JComboBox<String> customerComboBox;
-    private javax.swing.JButton customerResetBtn;
-    private javax.swing.JButton customerSaveBtn;
     private javax.swing.JComboBox<String> itemComboBox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -346,7 +364,6 @@ public class OrderPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -360,10 +377,14 @@ public class OrderPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable orderCartTbl;
+    private javax.swing.JButton orderResetBtn;
+    private javax.swing.JButton placeOrderBtn;
     private javax.swing.JTextField priceTextField;
+    private javax.swing.JTextField qtyTextFiled;
+    private javax.swing.JButton resetBtn;
+    private javax.swing.JLabel totalLbl;
     // End of variables declaration//GEN-END:variables
 }
