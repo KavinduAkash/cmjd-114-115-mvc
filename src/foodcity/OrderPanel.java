@@ -278,17 +278,21 @@ public class OrderPanel extends javax.swing.JPanel {
         
         ItemDTO dto = itemController.getItemDetails(Integer.parseInt(selectedItemid));
         
-        double totalItemValue = Integer.parseInt(qty) * dto.getPrice();
-        total+=totalItemValue;
-        
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
-        
-        Object[] new_row = new Object[]{dto.getId(), dto.getName(), qty, dto.getPrice(), totalItemValue};
-        model.addRow(new_row);
-        
-        totalLbl.setText(Double.toString(total));
-        
-        cleanForm();
+        if(!qty.equals("") && Integer.parseInt(qty)<=dto.getQty() && Integer.parseInt(qty) != 0) {
+                double totalItemValue = Integer.parseInt(qty) * dto.getPrice();
+                total+=totalItemValue;
+
+                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
+
+                Object[] new_row = new Object[]{dto.getId(), dto.getName(), qty, dto.getPrice(), totalItemValue};
+                model.addRow(new_row);
+
+                totalLbl.setText(Double.toString(total));
+
+                cleanForm();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid Qty!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_addToCartBtnActionPerformed
 
     private void placeOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderBtnActionPerformed
