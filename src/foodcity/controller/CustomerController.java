@@ -21,7 +21,7 @@ public class CustomerController {
     
     private final CustomerModel model = new CustomerModel();
     
-    public boolean saveCustomer(CustomerDTO dto) {
+    public boolean saveCustomer(CustomerDTO dto) throws Exception {
         
         boolean result = model.saveCustomer(dto);
         return result;
