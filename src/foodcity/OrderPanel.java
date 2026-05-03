@@ -297,6 +297,20 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private void placeOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderBtnActionPerformed
         // TODO add your handling code here:
+        String customerId = (String)customerComboBox.getSelectedItem();
+        
+        int rowCount = orderCartTbl.getRowCount();
+        
+        for(int i=0; i<10; i++) {
+        
+        }
+        
+        int itemId = (Integer)orderCartTbl.getValueAt(0, 0);
+        int qty = (Integer)orderCartTbl.getValueAt(0, 2);
+        double unitPrice = (Double)orderCartTbl.getValueAt(0, 3);
+        
+        
+        
     }//GEN-LAST:event_placeOrderBtnActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
