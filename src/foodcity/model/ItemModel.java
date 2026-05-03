@@ -19,10 +19,8 @@ import java.util.List;
  */
 public class ItemModel {
     
-    public boolean saveItem(ItemDTO dto) {        
-        boolean rs = false;
-        
-        try {
+    public boolean saveItem(ItemDTO dto) throws Exception {        
+            boolean rs = false;
         
             Connection conn = DBConnection.getInstance().getConnection();
             
@@ -36,19 +34,13 @@ public class ItemModel {
                 
                 rs = result > 0;
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
         
-        return rs;
+            return rs;
     }
     
-    public boolean updateItem(ItemDTO dto) {
-        boolean rs = false;
-        
-        try {
-        
+    public boolean updateItem(ItemDTO dto) throws Exception {
+            boolean rs = false;
+      
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
@@ -61,17 +53,11 @@ public class ItemModel {
                 rs = result > 0;
             }
             
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
-        
-        return rs;
+            return rs;
     }
     
-    public boolean deleteItem(int id) {
-        boolean rs = false;
-        
-        try {
+    public boolean deleteItem(int id) throws Exception {
+            boolean rs = false;
         
             Connection conn = DBConnection.getInstance().getConnection();
             
@@ -84,18 +70,13 @@ public class ItemModel {
                 
                 rs = result > 0;
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
         
-        return rs;
+            return rs;
     }
     
-    public List<ItemDTO> getItems() {
-        List<ItemDTO> dtos = new ArrayList<>();
-        
-        try {
+    public List<ItemDTO> getItems() throws Exception {
+            List<ItemDTO> dtos = new ArrayList<>();
+       
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
@@ -117,18 +98,13 @@ public class ItemModel {
                 }
                 
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
         
-        return dtos;
+            return dtos;
     }
     
-    public ItemDTO getItemDetails(int id) {
-        ItemDTO dto = null;
+    public ItemDTO getItemDetails(int id) throws Exception {
+            ItemDTO dto = null;
         
-        try {
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
@@ -150,10 +126,6 @@ public class ItemModel {
                 
             }
             
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
-        
-        return dto;
+          return dto;
     }
 }

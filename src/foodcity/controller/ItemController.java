@@ -16,35 +16,35 @@ public class ItemController {
     
     private final ItemModel item = new ItemModel();
     
-    public boolean saveItem(ItemDTO dto) {
+    public boolean saveItem(ItemDTO dto) throws Exception {
         
         boolean result = item.saveItem(dto);
         return result;
         
     }
     
-    public boolean updateItem(ItemDTO dto) {
+    public boolean updateItem(ItemDTO dto) throws Exception {
        
         boolean result = item.updateItem(dto);
         return result;
         
     }
     
-    public boolean deleteItem(int id) {
+    public boolean deleteItem(int id) throws Exception {
         
         boolean result = item.deleteItem(id);
         return result;
         
     }
     
-    public List<ItemDTO> getItems() {
+    public List<ItemDTO> getItems() throws Exception {
         
         List<ItemDTO> result = item.getItems();
         return result;
         
     }
     
-    public ItemDTO getItemDetails(int id) {
+    public ItemDTO getItemDetails(int id) throws Exception {
         
         ItemDTO result = item.getItemDetails(id);
         return result;

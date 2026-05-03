@@ -234,67 +234,79 @@ public class ItemPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveBtnActionPerformed
-        String id = itemIdTextField.getText();
-        String name = itemNameTextField.getText();
-        String qty = itemQtyTextField.getText();
-        String price = itemPriceTextField.getText();
-        
-        ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
-        
-        boolean result = controller.saveItem(dto);
-        
-        if(result) {
-       
-            JOptionPane.showMessageDialog(null, "Item Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadItemTbl();
-            cleanItemTextFields();
-            
-        } else {
-            
+        try {
+            String id = itemIdTextField.getText();
+            String name = itemNameTextField.getText();
+            String qty = itemQtyTextField.getText();
+            String price = itemPriceTextField.getText();
+
+            ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
+
+            boolean result = controller.saveItem(dto);
+
+            if(result) {
+
+                JOptionPane.showMessageDialog(null, "Item Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadItemTbl();
+                cleanItemTextFields();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
-        
         }
     }//GEN-LAST:event_itemSaveBtnActionPerformed
 
     private void itemUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUpdateBtnActionPerformed
         // TODO add your handling code here:
-        String id = itemIdTextField.getText();
-        String name = itemNameTextField.getText();
-        String qty = itemQtyTextField.getText();
-        String price = itemPriceTextField.getText();
-        
-        ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
-        
-        boolean result = controller.updateItem(dto);
-        
-        if(result) {
-       
-            JOptionPane.showMessageDialog(null, "Item Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadItemTbl();
-            cleanItemTextFields();
-            
-        } else {
-            
+        try {
+            String id = itemIdTextField.getText();
+            String name = itemNameTextField.getText();
+            String qty = itemQtyTextField.getText();
+            String price = itemPriceTextField.getText();
+
+            ItemDTO dto = new ItemDTO(Integer.parseInt(id), name, Integer.parseInt(qty), Double.parseDouble(price));
+
+            boolean result = controller.updateItem(dto);
+
+            if(result) {
+
+                JOptionPane.showMessageDialog(null, "Item Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadItemTbl();
+                cleanItemTextFields();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
-        
         }
     }//GEN-LAST:event_itemUpdateBtnActionPerformed
 
     private void itemDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDeleteBtnActionPerformed
-        String id = itemIdTextField.getText();
-        
-        boolean result = controller.deleteItem(Integer.parseInt(id));
-        
-        if(result) {
-       
-            JOptionPane.showMessageDialog(null, "Item Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadItemTbl();
-            cleanItemTextFields();
-            
-        } else {
-            
+        try {
+            String id = itemIdTextField.getText();
+
+            boolean result = controller.deleteItem(Integer.parseInt(id));
+
+            if(result) {
+
+                JOptionPane.showMessageDialog(null, "Item Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadItemTbl();
+                cleanItemTextFields();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
-        
         }
     }//GEN-LAST:event_itemDeleteBtnActionPerformed
 
@@ -320,15 +332,18 @@ public class ItemPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_itemTableMouseClicked
     
     private void loadItemTbl() {
-        
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
-        model.setRowCount(0);
-        
-        List<ItemDTO> result = controller.getItems();
-        
-        for(ItemDTO dto : result) {
-            Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getQty(), dto.getPrice()};
-            model.addRow(new_row);
+        try {
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)itemTable.getModel();
+            model.setRowCount(0);
+
+            List<ItemDTO> result = controller.getItems();
+
+            for(ItemDTO dto : result) {
+                Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getQty(), dto.getPrice()};
+                model.addRow(new_row);
+            }
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
        
     }

@@ -19,18 +19,11 @@ import java.util.List;
  */
 public class CustomerModel {
     
-    private final String DB_URL = "jdbc:mysql://localhost:3306/supermarket";
-    private final String DB_USER = "root";
-    private final String DB_PASSWORD = "ijse";
-    
-    public boolean saveCustomer(CustomerDTO dto) {
+    public boolean saveCustomer(CustomerDTO dto) throws Exception {
        
-        
-        try {
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
-                System.out.println("Connected!!!");
                 
                 String sql = "INSERT INTO customers(id, name, email, address) VALUES (" + dto.getId() + ", '" + dto.getName() + "', '"+ dto.getEmail() +"', '" + dto.getAddress() + "')";
             
@@ -41,18 +34,13 @@ public class CustomerModel {
                 return result > 0;
             }
             
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
-        
-        return false;
+            return false;
         
     }
     
-    public boolean updateCustomer(CustomerDTO dto) {
-        boolean rs = false;
-        
-        try {
+    public boolean updateCustomer(CustomerDTO dto) throws Exception {
+            boolean rs = false;
+       
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
@@ -66,18 +54,12 @@ public class CustomerModel {
                 
                 rs = result > 0;
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
-        
-        return rs;
+           
+            return rs;
     }
     
-    public boolean deleteCustomer(int id) {
-        boolean rs = false;
-        
-        try {
+    public boolean deleteCustomer(int id) throws Exception {
+            boolean rs = false;
         
             Connection conn = DBConnection.getInstance().getConnection();
             
@@ -93,18 +75,13 @@ public class CustomerModel {
                 rs = result > 0;
                 
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
         
-        return rs;
+            return rs;
     }
     
-    public List<CustomerDTO> getCustomers() {
-        List<CustomerDTO> dtos = new ArrayList<>();
-        
-        try {
+    public List<CustomerDTO> getCustomers() throws Exception {
+            List<CustomerDTO> dtos = new ArrayList<>();
+       
             Connection conn = DBConnection.getInstance().getConnection();
             
             if(conn!=null) {
@@ -125,12 +102,8 @@ public class CustomerModel {
                     dtos.add(dto);
                 }
             }
-            
-        } catch(Exception e) {
-            System.out.println("Something went wrong!!!");
-        }
         
-        return dtos;
+            return dtos;
     }
     
 }

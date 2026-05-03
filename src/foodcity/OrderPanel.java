@@ -6,9 +6,11 @@ package foodcity;
 
 import foodcity.controller.CustomerController;
 import foodcity.controller.ItemController;
+import foodcity.controller.OrderController;
 import foodcity.dto.CustomerDTO;
 import foodcity.dto.OrderItemDTO;
 import foodcity.dto.ItemDTO;
+import foodcity.dto.OrderDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,6 +28,8 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private final CustomerController customerController = new CustomerController();
     private final ItemController itemController = new ItemController();
+    private final OrderController orderController = new OrderController();
+    
     private double total = 0.0;
     
     /**
@@ -299,23 +303,35 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private void placeOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderBtnActionPerformed
         // TODO add your handling code here:
-        String customerId = (String)customerComboBox.getSelectedItem();
-        
-        int rowCount = orderCartTbl.getRowCount();
-        
-        List<OrderItemDTO> oidtoList = new ArrayList<>();
-        
-        for(int i=0; i<rowCount; i++) {
-            int itemId = (Integer)orderCartTbl.getValueAt(i, 0);
-            int qty = (Integer)orderCartTbl.getValueAt(i, 2);
-            double unitPrice = (Double)orderCartTbl.getValueAt(i, 3);
-            
-            OrderItemDTO oidto = new OrderItemDTO(itemId, qty, unitPrice);
-            oidtoList.add(oidto);
-        }       
-        
-        OrderDTO orderDTO = new OrderDTO(Integer.parseInt(customerId), oidtoList);
-        
+        try {
+            String customerId = (String)customerComboBox.getSelectedItem();
+
+            int rowCount = orderCartTbl.getRowCount();
+
+            List<OrderItemDTO> oidtoList = new ArrayList<>();
+
+            for(int i=0; i<rowCount; i++) {
+                int itemId = (Integer)orderCartTbl.getValueAt(i, 0);
+                int qty = (Integer)orderCartTbl.getValueAt(i, 2);
+                double unitPrice = (Double)orderCartTbl.getValueAt(i, 3);
+
+                OrderItemDTO oidto = new OrderItemDTO(itemId, qty, unitPrice);
+                oidtoList.add(oidto);
+            }       
+
+            OrderDTO orderDTO = new OrderDTO(Integer.parseInt(customerId), oidtoList);
+
+            boolean result = orderController.placeOrder(orderDTO);
+
+            if(result) {
+                JOptionPane.showMessageDialog(null, "Order Placed Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                cleanUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_placeOrderBtnActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
@@ -365,6 +381,19 @@ public class OrderPanel extends javax.swing.JPanel {
             int id = dto.getId();
             itemComboBox.addItem(Integer.toString(id));
         }
+    }
+    
+    private void cleanUI() {
+        availableQtyTextField.setText("");
+        priceTextField.setText("");
+        qtyTextFiled.setText("");
+        itemComboBox.setSelectedIndex(0); 
+        customerComboBox.setSelectedIndex(0); 
+        
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
+        model.setRowCount(0);
+        
+        total = 0.0;
     }
     
     private void cleanForm() {

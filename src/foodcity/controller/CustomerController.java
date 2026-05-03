@@ -21,28 +21,28 @@ public class CustomerController {
     
     private final CustomerModel model = new CustomerModel();
     
-    public boolean saveCustomer(CustomerDTO dto) {
+    public boolean saveCustomer(CustomerDTO dto) throws Exception {
         
         boolean result = model.saveCustomer(dto);
         return result;
         
     }
     
-    public boolean updateCustomer(CustomerDTO dto) {
+    public boolean updateCustomer(CustomerDTO dto) throws Exception {
         
         boolean result = model.updateCustomer(dto);
         return result;
     
     }
     
-    public boolean deleteCustomer(int id) {
+    public boolean deleteCustomer(int id) throws Exception {
         
         boolean result = model.deleteCustomer(id);
         return result;
         
     }
     
-    public List<CustomerDTO> getCustomers() {
+    public List<CustomerDTO> getCustomers() throws Exception {
                
         List<CustomerDTO> result = model.getCustomers();
         return result;

@@ -214,20 +214,26 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void customerSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerSaveBtnActionPerformed
         // TODO add your handling code here: 
-        String id = customerIdTextField.getText();
-        String name = customerNameTextField.getText();
-        String email = customerEmailTextField.getText();
-        String address = customerAddressTextField.getText();
+        try {
         
-        CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
+            String id = customerIdTextField.getText();
+            String name = customerNameTextField.getText();
+            String email = customerEmailTextField.getText();
+            String address = customerAddressTextField.getText();
+
+            CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
+
+            boolean result = customerController.saveCustomer(dto);
+
+            if(result) {
+                JOptionPane.showMessageDialog(null, "Customer Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadCustomerTbl();
+                cleanCustomerTextFileds();
+            } else {
+                JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         
-        boolean result = customerController.saveCustomer(dto);
-        
-        if(result) {
-            JOptionPane.showMessageDialog(null, "Customer Saved Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadCustomerTbl();
-            cleanCustomerTextFileds();
-        } else {
+        } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -235,20 +241,24 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void customerUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerUpdateBtnActionPerformed
         // TODO add your handling code here:
-        String id = customerIdTextField.getText();
-        String name = customerNameTextField.getText();
-        String email = customerEmailTextField.getText();
-        String address = customerAddressTextField.getText();
-        
-        CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
-        
-        boolean result = customerController.updateCustomer(dto);
-        
-        if(result) {
-            JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadCustomerTbl();
-            cleanCustomerTextFileds();
-        } else {
+        try {
+            String id = customerIdTextField.getText();
+            String name = customerNameTextField.getText();
+            String email = customerEmailTextField.getText();
+            String address = customerAddressTextField.getText();
+
+            CustomerDTO dto = new CustomerDTO(Integer.parseInt(id), name, email, address);
+
+            boolean result = customerController.updateCustomer(dto);
+
+            if(result) {
+                JOptionPane.showMessageDialog(null, "Customer Updated Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadCustomerTbl();
+                cleanCustomerTextFileds();
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(Exception  e) {
             JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
                     
@@ -256,7 +266,6 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
         // TODO add your handling code here:
-        
         int row = customerTable.getSelectedRow();
         System.out.println(row);
         
@@ -277,31 +286,37 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void customerDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerDeleteBtnActionPerformed
         // TODO add your handling code here:
-        String id = customerIdTextField.getText();
-        
-        boolean result = customerController.deleteCustomer(Integer.parseInt(id));
-        
-        if(result) {
-            JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadCustomerTbl();
-            cleanCustomerTextFileds();
-        } else {
+        try {
+            String id = customerIdTextField.getText();
+
+            boolean result = customerController.deleteCustomer(Integer.parseInt(id));
+
+            if(result) {
+                JOptionPane.showMessageDialog(null, "Customer Deleted Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadCustomerTbl();
+                cleanCustomerTextFileds();
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(Exception  e) {
             JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_customerDeleteBtnActionPerformed
 
     private void loadCustomerTbl() {
-        
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();        
-        model.setRowCount(0);
-        
-        List<CustomerDTO> dtos = customerController.getCustomers();
-        
-        for(CustomerDTO dto : dtos) {
-            Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getEmail(), dto.getAddress()};
-            model.addRow(new_row);
-        }
+        try {
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)customerTable.getModel();        
+            model.setRowCount(0);
 
+            List<CustomerDTO> dtos = customerController.getCustomers();
+
+            for(CustomerDTO dto : dtos) {
+                Object[] new_row = new Object[]{dto.getId(), dto.getName(), dto.getEmail(), dto.getAddress()};
+                model.addRow(new_row);
+            }
+        } catch(Exception  e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void cleanCustomerTextFileds() {
