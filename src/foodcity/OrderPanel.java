@@ -279,25 +279,29 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private void addToCartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartBtnActionPerformed
         // TODO add your handling code here:
-        String selectedItemid = (String)itemComboBox.getSelectedItem();
-        String qty = qtyTextFiled.getText();
-        
-        ItemDTO dto = itemController.getItemDetails(Integer.parseInt(selectedItemid));
-        
-        if(!qty.equals("") && Integer.parseInt(qty)<=dto.getQty() && Integer.parseInt(qty) != 0) {
-                double totalItemValue = Integer.parseInt(qty) * dto.getPrice();
-                total+=totalItemValue;
+        try {
+            String selectedItemid = (String)itemComboBox.getSelectedItem();
+            String qty = qtyTextFiled.getText();
 
-                javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
+            ItemDTO dto = itemController.getItemDetails(Integer.parseInt(selectedItemid));
 
-                Object[] new_row = new Object[]{dto.getId(), dto.getName(), qty, dto.getPrice(), totalItemValue};
-                model.addRow(new_row);
+            if(!qty.equals("") && Integer.parseInt(qty)<=dto.getQty() && Integer.parseInt(qty) != 0) {
+                    double totalItemValue = Integer.parseInt(qty) * dto.getPrice();
+                    total+=totalItemValue;
 
-                totalLbl.setText(Double.toString(total));
+                    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel)orderCartTbl.getModel(); 
 
-                cleanForm();
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid Qty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    Object[] new_row = new Object[]{dto.getId(), dto.getName(), qty, dto.getPrice(), totalItemValue};
+                    model.addRow(new_row);
+
+                    totalLbl.setText(Double.toString(total));
+
+                    cleanForm();
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Qty!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addToCartBtnActionPerformed
 
@@ -341,45 +345,57 @@ public class OrderPanel extends javax.swing.JPanel {
 
     private void itemComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemComboBoxActionPerformed
         
-        String id = (String)itemComboBox.getSelectedItem();
-        System.out.println(id); // null
-        
-        if(id != null) {
-            if(!id.equals("NAN")) {
-                ItemDTO dto = itemController.getItemDetails(Integer.parseInt(id));
-                int qty = dto.getQty();
-                double price = dto.getPrice();
-                
-                availableQtyTextField.setText(Integer.toString(qty));
-                priceTextField.setText(Double.toString(price));
-            }
-        }        
+        try {
+            String id = (String)itemComboBox.getSelectedItem();
+            System.out.println(id); // null
+
+            if(id != null) {
+                if(!id.equals("NAN")) {
+                    ItemDTO dto = itemController.getItemDetails(Integer.parseInt(id));
+                    int qty = dto.getQty();
+                    double price = dto.getPrice();
+
+                    availableQtyTextField.setText(Integer.toString(qty));
+                    priceTextField.setText(Double.toString(price));
+                }
+            }     
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_itemComboBoxActionPerformed
 
     private void loadCustomerComboBox() {
-        List<CustomerDTO> dtos = customerController.getCustomers();
-        
-        customerComboBox.removeAllItems();
-        
-        customerComboBox.addItem("NAN");
-        
-        for(CustomerDTO dto : dtos) {
-            int id = dto.getId();
-            customerComboBox.addItem(Integer.toString(id));
+        try {
+            List<CustomerDTO> dtos = customerController.getCustomers();
+
+            customerComboBox.removeAllItems();
+
+            customerComboBox.addItem("NAN");
+
+            for(CustomerDTO dto : dtos) {
+                int id = dto.getId();
+                customerComboBox.addItem(Integer.toString(id));
+            }
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     private void loadItemComboBox() {
-        List<ItemDTO> dtos = itemController.getItems();
-        
-        itemComboBox.removeAllItems();
-        
-        itemComboBox.addItem("NAN");
-        
-        for(ItemDTO dto : dtos) {
-            int id = dto.getId();
-            itemComboBox.addItem(Integer.toString(id));
+        try {
+            List<ItemDTO> dtos = itemController.getItems();
+
+            itemComboBox.removeAllItems();
+
+            itemComboBox.addItem("NAN");
+
+            for(ItemDTO dto : dtos) {
+                int id = dto.getId();
+                itemComboBox.addItem(Integer.toString(id));
+            }
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
