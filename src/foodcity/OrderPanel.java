@@ -7,12 +7,14 @@ package foodcity;
 import foodcity.controller.CustomerController;
 import foodcity.controller.ItemController;
 import foodcity.dto.CustomerDTO;
+import foodcity.dto.OrderItemDTO;
 import foodcity.dto.ItemDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -301,15 +303,18 @@ public class OrderPanel extends javax.swing.JPanel {
         
         int rowCount = orderCartTbl.getRowCount();
         
-        for(int i=0; i<10; i++) {
+        List<OrderItemDTO> oidtoList = new ArrayList<>();
         
-        }
+        for(int i=0; i<rowCount; i++) {
+            int itemId = (Integer)orderCartTbl.getValueAt(i, 0);
+            int qty = (Integer)orderCartTbl.getValueAt(i, 2);
+            double unitPrice = (Double)orderCartTbl.getValueAt(i, 3);
+            
+            OrderItemDTO oidto = new OrderItemDTO(itemId, qty, unitPrice);
+            oidtoList.add(oidto);
+        }       
         
-        int itemId = (Integer)orderCartTbl.getValueAt(0, 0);
-        int qty = (Integer)orderCartTbl.getValueAt(0, 2);
-        double unitPrice = (Double)orderCartTbl.getValueAt(0, 3);
-        
-        
+        OrderDTO orderDTO = new OrderDTO(Integer.parseInt(customerId), oidtoList);
         
     }//GEN-LAST:event_placeOrderBtnActionPerformed
 
