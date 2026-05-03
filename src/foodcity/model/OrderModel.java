@@ -24,23 +24,35 @@ public class OrderModel {
         
         Connection conn = DBConnection.getInstance().getConnection();
         
-        String sql = "INSERT INTO orders(customer_id) VALUES (" + orderDTO.getCustomerId() + ")";
         
-        Statement stm = conn.createStatement();
+        conn.setAutoCommit(false);
         
-        int result1 = stm.executeUpdate(sql);
-        
-        if(result1 > 0) {
-            
-            sql = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
-            ResultSet result2 = stm.executeQuery(sql);
-            
-            while(result2.next()) {
-                int orderId = result2.getInt("id");
-                orderDTO.setOrderId(orderId);
-                rs = orderItemModel.saveOrderItems(orderDTO);
+        try {
+            String sql = "INSERT INTO orders(customer_id) VALUES (" + orderDTO.getCustomerId() + ")";
+
+            Statement stm = conn.createStatement();
+
+            int result1 = stm.executeUpdate(sql);
+
+            if(result1 > 0) {
+
+                sql = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
+                ResultSet result2 = stm.executeQuery(sql);
+
+                while(result2.next()) {
+                    int orderId = result2.getInt("id");
+                    orderDTO.setOrderId(orderId);
+                    rs = orderItemModel.saveOrderItems(orderDTO);
+                }
+
             }
             
+            conn.commit();
+            
+        } catch(Exception e) {
+            conn.rollback();
+        } finally {
+            conn.setAutoCommit(true);
         }
         
         return rs;
