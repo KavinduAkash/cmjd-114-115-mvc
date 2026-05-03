@@ -25,6 +25,8 @@ public class OrderItemModel {
             String sql = "INSERT INTO order_items(order_id, item_id, unit_price, qty, total_price) VALUES (" + orderDTO.getOrderId() + ", " + item.getItemId() + ", " + item.getUnitPrice() + ", " + item.getQty() + ", " + item.getUnitPrice()*item.getQty() + ")";
             Statement stm = conn.createStatement();
             int result = stm.executeUpdate(sql);
+            
+            // change item qty
         }
         
         return true;

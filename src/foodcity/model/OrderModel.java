@@ -50,6 +50,8 @@ public class OrderModel {
             conn.commit();
             
         } catch(Exception e) {
+            e.printStackTrace();
+            
             conn.rollback();
         } finally {
             conn.setAutoCommit(true);

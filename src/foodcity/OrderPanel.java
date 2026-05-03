@@ -316,7 +316,9 @@ public class OrderPanel extends javax.swing.JPanel {
 
             for(int i=0; i<rowCount; i++) {
                 int itemId = (Integer)orderCartTbl.getValueAt(i, 0);
-                int qty = (Integer)orderCartTbl.getValueAt(i, 2);
+                
+                int qty = Integer.parseInt(orderCartTbl.getValueAt(i, 2).toString());
+                
                 double unitPrice = (Double)orderCartTbl.getValueAt(i, 3);
 
                 OrderItemDTO oidto = new OrderItemDTO(itemId, qty, unitPrice);
@@ -331,10 +333,11 @@ public class OrderPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Order Placed Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 cleanUI();
             } else {
-                JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Something went wrong! - 1", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong! - 2", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_placeOrderBtnActionPerformed
 
@@ -410,6 +413,7 @@ public class OrderPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         
         total = 0.0;
+        totalLbl.setText(total + "");
     }
     
     private void cleanForm() {
